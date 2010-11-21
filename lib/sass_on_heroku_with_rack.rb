@@ -1,0 +1,1 @@
+require 'engine' if defined?(Rails)

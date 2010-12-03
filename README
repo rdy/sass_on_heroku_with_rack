@@ -1,6 +1,8 @@
 SassOnHerokuWithRack
 ====================
 
+For use with Heroku and Rails3 only.
+
 A Rails engine that lets you use sass with Heroku easily. Create a stylesheet link tag pointing to any scss or sass file at /stylesheets and that will get mapped to the generated sass source.
 
 Add this to you Gemfile if you are using bundler:

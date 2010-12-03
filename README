@@ -1,13 +1,40 @@
 SassOnHerokuWithRack
 ====================
 
-Introduction goes here.
+A Rails engine that lets you use sass with Heroku easily. Create a stylesheet link tag pointing to any scss or sass file at /stylesheets and that will get mapped to the generated sass source.
 
+Add this to you Gemfile if you are using bundler:
+gem 'sass_on_heroku_with_rack', :git => 'https://github.com/rdy/sass_on_heroku_with_rack.git'
+
+Or you can build and install the gem.
+
+The generated sass files will be cached with varnish because of the cache control headers. Anytime you deploy to heroku the cached files will be flushed automatically so you don't have to worry about the old versions.
+
+Configuration is simple, you still you configure your sass plugin normally. I use the following defaults for my /config/initializer/sass_plugin_options.rb:
+
+Sass::Plugin.options[:template_location] = './app/stylesheets'
+Sass::Plugin.options[:load_paths] = ['./app/stylesheets']
+Sass::Plugin.options[:syntax] = :scss
+
+Also the last important thing to do is to add the following line to your production.rb:
+
+Sass::Plugin.options[:never_update] = true
+
+The benefit of this plugin is mapping all the generated sass files automatically so you can create multiple stylesheets at the same time for different resources and get automatic caching with varnish on Heroku.
 
 Example
 =======
 
-Example goes here.
+If you've made all the correct configuration changes all you need to do is link to your stylesheets.
 
+For example in your layout:
+<%= stylesheet_link_tag 'application' %>
+<%= stylesheet_link_tag 'iphone', :media => 'handheld, only screen and (max-device-width: 480px)' %>
+<%= stylesheet_link_tag 'iphone4', :media => 'handheld, only screen and (-webkit-min-device-pixel-ratio:2)' %>
 
-Copyright (c) 2010 [name of plugin creator], released under the MIT license
+Will map to files in:
+/app/stylesheets/application.scss
+/app/stylesheets/iphone.scss
+/app/stylesheets/iphone4.scss
+
+Copyright (c) 2010 Ryan Dy, released under the MIT license

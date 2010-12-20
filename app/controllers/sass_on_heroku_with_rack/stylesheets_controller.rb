@@ -2,7 +2,7 @@ class SassOnHerokuWithRack::StylesheetsController < ActionController::Metal
   include ActionController::Rendering
 
   def show
-    response.headers['Cache-Control'] = "public, max-age=#{1.year.seconds.to_i}" if Rails.env.production?
+    response.headers['Cache-Control'] = "public, max-age=#{1.hour.seconds.to_i}" if Rails.env.production?
 
     sass_options = Sass::Plugin.options
     sass_options.merge! :style => :compressed unless Rails.env.development?
